@@ -78,21 +78,29 @@ public class Ex1 {
         int lx = xx.length;
         int ly = yy.length;
         if (xx != null && yy != null && lx == ly && lx > 1 && lx < 4) {
+            double x1 = xx[0], x2 = xx[1], y1 = yy[0], y2 = yy[1];
+            if (lx == 2)
+            {
+                double B = (y2 - y1) / (x2 - x1);
+                double C = y1 - B * x1;
 
-            /** add you code below
-             denom = (x1 - x2)(x1 - x3)(x2 - x3)
-             a = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2))
-             b = (x3^2 * (y1 - y2) + x2^2 * (y3 - y1) + x1^2 * (y2 - y3))
-             c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3)
+                return new double[]{C, B};
+            }
 
-             The general form of a parabola is given by the equation:
-             A * x^2 + B * x + C = y where A, B, and C are arbitrary Real constants.
-             */
-
-            /////////////////// */
+            else if (lx == 3)
+            {
+                double y3 = yy[2], x3 = xx[2];
+                double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
+                double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
+                double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
+                double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
+                ans = new double[]{C, B, A};
+            }
         }
         return ans;
+
     }
+
 
     /**
      * Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
