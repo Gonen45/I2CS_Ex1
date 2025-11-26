@@ -194,7 +194,7 @@ public class Ex1 {
 
             ans= Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)) + ans;
             //disclaimer i was struggling with the math in this func even with prior knowledge in algebra,
-            //i used gemini for understanding the concept
+            //i used gemini for understanding the concept.
 
         }
         return ans;
