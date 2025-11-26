@@ -179,10 +179,24 @@ public class Ex1 {
      * @return the length approximation of the function between f(x1) and f(x2).
      */
     public static double length(double[] p, double x1, double x2, int numberOfSegments) {
-        double ans = x1;
-        /** add you code below
+        double ans = 0;   //why x1     ?????? it has no connection to definition of length its from 1d
+        if(x1>x2){
+            double temp = x1;
+            x1=x2;
+            x2=temp;
+        }
+        double dx= (x2-x1)/(numberOfSegments+1);
+        for(int i=0 ; i<numberOfSegments+1 ; i = i+1){
+            double curr_x= x1+dx*i;
+            double next_x= x1+dx*(i+1);
 
-         /////////////////// */
+            double dy=f(p,next_x)-f(p,curr_x);
+
+            ans= Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)) + ans;
+            //disclaimer i was struggling with the math in this func even with prior knowledge in algebra,
+            //i used gemini for understanding the concept
+
+        }
         return ans;
     }
 
