@@ -81,20 +81,21 @@ public class Ex1 {
             double x1 = xx[0], x2 = xx[1], y1 = yy[0], y2 = yy[1];
             if (lx == 2)
             {
-                double B = (y2 - y1) / (x2 - x1);
-                double C = y1 - B * x1;
+                double b = (y2 - y1) / (x2 - x1);
+                double c = y1 - b * x1;
 
-                return new double[]{C, B};
+                return new double[]{c, b};
             }
 
             else if (lx == 3)
             {
+                // this section is purely based on http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
                 double y3 = yy[2], x3 = xx[2];
                 double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
-                double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
-                double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
-                double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
-                ans = new double[]{C, B, A};
+                double a = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
+                double b = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
+                double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
+                ans = new double[]{c, b, a};
             }
         }
         return ans;
@@ -112,10 +113,30 @@ public class Ex1 {
      */
     public static boolean equals(double[] p1, double[] p2) {
         boolean ans = true;
-        /** add you code below
+        if (p1==null && p2==null){return ans;}
 
-         /////////////////// */
+        if(p1.length==p2.length){
+            for(int i=0;i< p1.length;i++){
+                if(Math.abs(f(p1,i) - f(p2,i))>EPS){
+                    return false;
+                }
+            }
+         return ans;}
+
+        if(p1.length> p2.length){
+            double[] new_arr = new double[p1.length];
+            System.arraycopy(p2, 0, new_arr, 0, p2.length);
+            for(int i=0; i<p1.length; i++) {
+                if (Math.abs(f(p1, i) - f(new_arr, i)) > EPS) {
+                    return false;
+                }
+            }
+
         return ans;
+        }
+        else{
+        return equals(p2,p1);
+    }
     }
 
     /**
@@ -129,7 +150,12 @@ public class Ex1 {
         String ans = "";
         if (poly.length == 0 || poly == null) {
             ans = "0";
-        } else {
+        }
+        else if (poly.length == 1) {
+            ans= ans+ String.format(" %.3f",poly[0]);
+        }
+
+         else {
             if(poly.length-1 > 1){
            ans= ans + String.format("%.3f%s%d",poly[poly.length-1],"x^", poly.length-1);}
            for (int i=poly.length-2; i>1 ; i--){
@@ -159,9 +185,8 @@ public class Ex1 {
      */
     public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
         double ans = x1;
-        /** add you code below
-
-         /////////////////// */
+        double[] dif =add(mp(-1,0,p2),p1);;
+        ans = root_rec(dif, x1,  x2, eps);
         return ans;
     }
 
@@ -179,7 +204,7 @@ public class Ex1 {
      * @return the length approximation of the function between f(x1) and f(x2).
      */
     public static double length(double[] p, double x1, double x2, int numberOfSegments) {
-        double ans = 0;   //why x1     ?????? it has no connection to definition of length its from 1d
+        double ans = 0;   //why x1     ?????? it has no connection to definition of length it's from 1d
         if(x1>x2){
             double temp = x1;
             x1=x2;
@@ -193,8 +218,10 @@ public class Ex1 {
             double dy=f(p,next_x)-f(p,curr_x);
 
             ans= Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)) + ans;
-            //disclaimer i was struggling with the math in this func even with prior knowledge in algebra,
-            //i used gemini for understanding the concept.
+            /*
+            disclaimer I was struggling with the math in this func even with prior knowledge in algebra,
+            I used gemini for understanding the concept.
+            */
 
         }
         return ans;
@@ -229,7 +256,9 @@ public class Ex1 {
      * @return
      */
     public static double[] getPolynomFromString(String p) {
+        if(p == null){return null;}
         double[] ans = ZERO;//  -1.0x^2 +3.0x +2.0
+        if(p.length() == 1){return new double[]{Double.parseDouble(p)};}
         String[] srr =p.split("x");
         int len= srr.length;
         ans = new double[len];
@@ -313,18 +342,15 @@ public class Ex1 {
      * @return
      */
     public static double[] derivative(double[] po) {
-        /*
-            get po
-            set arr[ po.len -1 ]
-            for (i=0, i<po.len, i++){
-                arr[i]= po[i+1] * (i+1)
-            }
-            return arr
-         */
-
 
         int len = po.length;
         double[] ans = ZERO;
+
+        if(po.length == 0){
+            ans= new double[]{0};
+            return ans;
+        }
+
         ans = new double[len - 1];
         for (int i = 0; i < ans.length; i++) {
             ans[i] = po[i + 1] * (i + 1);
