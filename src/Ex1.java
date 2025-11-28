@@ -263,9 +263,6 @@ public class Ex1 {
 
     }
 
-
-
-
     /**
      * This function computes the array representation of a polynomial function from a String
      * representation. Note:given a polynomial function represented as a double array,

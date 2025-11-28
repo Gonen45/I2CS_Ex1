@@ -249,6 +249,22 @@ class Ex1Test {
         assertArrayEquals(expected3, result3, Ex1.EPS);
 
     }
+@Test
+    public void testgetPolynomFromString(){
+    double[] p= {1,2,3};
+    String s = Ex1.poly(p);
+    double[] ex_p = Ex1.getPolynomFromString(s);
+    assertArrayEquals(ex_p, p, Ex1.EPS);
 
+    double[] p2= {-64,0,8,9,0.001,3};
+    String s2 = Ex1.poly(p2);
+    double[] ex_p2 = Ex1.getPolynomFromString(s2);
+    assertArrayEquals(ex_p2, p2, Ex1.EPS);
+
+    double[] p3= {-0.64,0,-8.009,9,0.001,300};
+    String s3 = Ex1.poly(p3);
+    double[] ex_p3 = Ex1.getPolynomFromString(s3);
+    assertArrayEquals(ex_p3, p3, Ex1.EPS);
+}
 
 }
