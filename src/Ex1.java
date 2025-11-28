@@ -245,25 +245,26 @@ public class Ex1 {
         double h= Math.abs(x2-x1)/numberOfTrapezoid;
         if(x1>x2){return area(p1,p2,x2,x1,numberOfTrapezoid);}
         if (p1 == ZERO && p2 == ZERO){return ans;}
-
-        if ((p1 == ZERO && p2.length==2) || (p2 == ZERO && p1.length==2)){
-            double triangle1 = (Math.abs(x1)*Math.abs(f(p2,x1))) / 2;
-            double triangle2 = (Math.abs(x2)*Math.abs(f(p2,x2))) / 2;
-            return triangle1+triangle2;}
-
-        double i=x1;
-        for(int j=0; j<numberOfTrapezoid; j++)
-        {
-            double a= Math.abs(f(p2,i)-f(p1,i));
-            i= i+h;
-            double b= Math.abs(f(p2,i)-f(p1,i));
-
-
-                ans += 0.5 * h * Math.abs(a + b);
+        for (double i = x1; i+EPS < x2; i+=h) {
+            double a = (f(p2, i) - f(p1, i));
+            double b = (f(p2, i+h) - f(p1, i+h));
+            if ((a*b<=0)) {
+                double point = sameValue(p1, p2, i, i + h, EPS);
+                double triangle1 = Math.abs((a * (point - i)) / 2);
+                double triangle2 = Math.abs((b * (point - i -h)) / 2);
+                ans += triangle1 + triangle2;
+            } else {
+                ans += Math.abs(((a + b) * h) / 2);
+            }
 
         }
+
         return ans;
+
     }
+
+
+
 
     /**
      * This function computes the array representation of a polynomial function from a String
