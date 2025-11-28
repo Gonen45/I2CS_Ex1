@@ -267,4 +267,24 @@ class Ex1Test {
     assertArrayEquals(ex_p3, p3, Ex1.EPS);
 }
 
+    @Test
+    public void testlength(){
+        double[] p1 = {2, 1, -0.7, -0.02, 0.02};
+        double exp_len1= Ex1.length(p1,0,6,100);
+        double len1= 12.3996;
+        assertEquals(exp_len1,len1,Ex1.EPS);
+
+
+        double[] p2 = {0,0,0,3,-9};
+        double exp_len2= Ex1.length(p2,0,1,10);
+        double len2= 6.43647;
+        assertEquals(exp_len2,len2,Ex1.EPS);
+
+
+        double[] p3 = {0,0.21,0,3,-0.019};
+        double exp_len3= Ex1.length(p3,3,1,10000);
+        double len3= 76.9371;
+        assertEquals(exp_len3,len3,Ex1.EPS);
+    }
+
 }
