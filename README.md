@@ -8,7 +8,7 @@ The project demonstrates my understanding of:
 - Functions
 - Recursive methods
 - Polynomial operations
-- 
+  
 ---
 
 ##  Implemented Functions
