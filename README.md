@@ -58,6 +58,11 @@ Multiplies the polynomial by a scalar.
 
 
 
+<img width="764" height="769" alt="image" src="https://github.com/user-attachments/assets/593cf17c-4ac4-4de7-b5bd-dbf4a79c7f51" />
+
+
+
+
 
 
 
