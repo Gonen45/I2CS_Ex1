@@ -286,5 +286,21 @@ class Ex1Test {
         double len3= 76.9371;
         assertEquals(exp_len3,len3,Ex1.EPS);
     }
+    @Test
+    public void testsameValue(){
+        double[] p1= {0,0.21,0,3,-0.019};
+        double[] p2= {0.5,3,-0.019};
+        double exp_val= Ex1.sameValue(p1,p2,1,6,Ex1.EPS);
+        double real_val=1.0442;
+        assertEquals(exp_val,real_val,Ex1.EPS);
 
+        double exp_val2= Ex1.sameValue(p1,Ex1.ZERO,0,4,Ex1.EPS);
+        double real_val2=0.00292;
+        assertEquals(exp_val2,real_val2,Ex1.EPS);
+
+
+
+
+
+    }
 }

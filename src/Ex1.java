@@ -79,19 +79,21 @@ public class Ex1 {
         int ly = yy.length;
         if (xx != null && yy != null && lx == ly && lx > 1 && lx < 4) {
             double x1 = xx[0], x2 = xx[1], y1 = yy[0], y2 = yy[1];
-            if (lx == 2)
+            if (lx == 2) // for linear equation from to points
             {
+                if(x2-x1 == 0){ return null;}
                 double b = (y2 - y1) / (x2 - x1);
                 double c = y1 - b * x1;
 
                 return new double[]{c, b};
             }
 
-            else if (lx == 3)
+            else //for three points- like parabola
             {
                 // this section is purely based on http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
                 double y3 = yy[2], x3 = xx[2];
                 double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
+                if(denom==0) {return null;}
                 double a = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
                 double b = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
                 double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
@@ -117,6 +119,10 @@ public class Ex1 {
 
         if(p1.length==p2.length){
             for(int i=0;i< p1.length;i++){
+                /*
+                 if reduction of two polynoms on the same x in abs is
+                 bigger than eps so they are not equals
+                */
                 if(Math.abs(f(p1,i) - f(p2,i))>EPS){
                     return false;
                 }
@@ -126,6 +132,7 @@ public class Ex1 {
         if(p1.length> p2.length){
             double[] new_arr = new double[p1.length];
             System.arraycopy(p2, 0, new_arr, 0, p2.length);
+            //new array that has zeros where p2 has no vals because he is shorter
             for(int i=0; i<p1.length; i++) {
                 if (Math.abs(f(p1, i) - f(new_arr, i)) > EPS) {
                     return false;
@@ -135,7 +142,7 @@ public class Ex1 {
         return ans;
         }
         else{
-        return equals(p2,p1);
+        return equals(p2,p1); // replace places "swap"
     }
     }
 
@@ -162,6 +169,7 @@ public class Ex1 {
                if (poly[i]>=0) ans= ans + String.format(" +%.3f%s%d",poly[i],"x^", i);
                else ans= ans + String.format(" %.3f%s%d",poly[i],"x^", i); //for a negative values not to be present +-n
            }
+           // poly[0] and poly[1] don't need x^n
             if (poly[1]>=0) ans= ans + String.format(" +%.3f%s",poly[1],"x");
             else ans= ans + String.format(" %.3f%s",poly[1],"x");
 
@@ -185,7 +193,11 @@ public class Ex1 {
      */
     public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
         double ans = x1;
-        double[] dif =add(mp(-1,0,p2),p1);;
+        double[] dif =add(mp(-1,0,p2),p1);
+        /*
+        like adding the negative: [p1=p2 --> p1-p2=p2-p2 --> p1-p2 = 0]
+         using scalar multipiction (-1) on p2 and adding to p1.
+        */
         ans = root_rec(dif, x1,  x2, eps);
         return ans;
     }
@@ -204,7 +216,7 @@ public class Ex1 {
      * @return the length approximation of the function between f(x1) and f(x2).
      */
     public static double length(double[] p, double x1, double x2, int numberOfSegments) {
-        double ans = 0;   //why x1     ?????? it has no connection to definition of length it's from 1d
+        double ans = x1;
         if(x1>x2){
             double temp = x1;
             x1=x2;
@@ -248,7 +260,7 @@ public class Ex1 {
         for (double i = x1; i+EPS < x2; i+=h) {
             double a = (f(p2, i) - f(p1, i));
             double b = (f(p2, i+h) - f(p1, i+h));
-            if ((a*b<=0)) {
+            if ((a*b<=0)) {// for the intersections of the two polynomials you need to use the area of a triangle
                 double point = sameValue(p1, p2, i, i + h, EPS);
                 double triangle1 = Math.abs((a * (point - i)) / 2);
                 double triangle2 = Math.abs((b * (point - i -h)) / 2);
@@ -256,11 +268,8 @@ public class Ex1 {
             } else {
                 ans += Math.abs(((a + b) * h) / 2);
             }
-
         }
-
         return ans;
-
     }
 
     /**
@@ -274,7 +283,7 @@ public class Ex1 {
     public static double[] getPolynomFromString(String p) {
         if(p == null){return null;}
         double[] ans = ZERO;//  -1.0x^2 +3.0x +2.0
-        if(p.length() == 1){return new double[]{Double.parseDouble(p)};}
+        if(p.length() == 1){return new double[]{Double.parseDouble(p)};} // return [n] for len of 1.
         String[] srr =p.split("x");
         int len= srr.length;
         ans = new double[len];
@@ -286,19 +295,11 @@ public class Ex1 {
 
         int i=1, j=len-2;
         while((i<len) && (j>0)){
-//            int op=0;
-//            if(srr[j].indexOf("-")<srr[j].indexOf("+")){
-//                op=srr[j].indexOf("+");
-//            }
-//            else {op=srr[j].indexOf("-");}
-
             int id= srr[j].trim().indexOf(" ");
             ans[i]=Double.parseDouble(srr[j].trim().substring(id));
             j-=1;
             i+=1;
         }
-
-
         return ans;
     }
 
@@ -315,18 +316,16 @@ public class Ex1 {
         else if (p1 == null) return p2;
         else if (p2 == null) return p1;
 
-
         if (p1.length > p2.length) {
             double[] temp = p1;
             p1 = p2;
             p2 = temp;
         }
         ans = Arrays.copyOf(p2, p2.length);
+
         for (int i = 0; i < p1.length; i++) {
-            ans[i] = p2[i] + p1[i];
+            ans[i] = p2[i] + p1[i]; // the addition
         }
-
-
         return ans;
     }
 
@@ -345,7 +344,7 @@ public class Ex1 {
 
         double[] pf= new double[p2.length + p1.length-1];
         for (int i=0; i< p1.length; i++){
-            pf= add(mp(p1[i],i,p2),pf);
+            pf= add(mp(p1[i],i,p2),pf); // using scalar multiplication for every point and adding it.
         }
         ans = pf;
         return ans;
@@ -366,10 +365,9 @@ public class Ex1 {
             ans= new double[]{0};
             return ans;
         }
-
         ans = new double[len - 1];
         for (int i = 0; i < ans.length; i++) {
-            ans[i] = po[i + 1] * (i + 1);
+            ans[i] = po[i + 1] * (i + 1); // based on the derivative formula (x^n)' = n*x^(n-1)
         }
         return ans;
 
@@ -379,7 +377,7 @@ public class Ex1 {
         double[] m = new double[p.length + pad];
 
         for (int j = 0 ; j<p.length; j++){
-            m[j+pad]= current * p[j];
+            m[j+pad]= current * p[j];  // scalar multiplication on array and adding a padding
         }
         return m;
     }
