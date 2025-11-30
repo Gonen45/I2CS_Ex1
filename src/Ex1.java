@@ -377,7 +377,7 @@ public class Ex1 {
         double[] m = new double[p.length + pad];
 
         for (int j = 0 ; j<p.length; j++){
-            m[j+pad]= current * p[j];  // scalar multiplication on array and adding a padding.
+            m[j+pad]= current * p[j];  // scalar multiplication on array and adding a padding
         }
         return m;
     }
