@@ -314,9 +314,8 @@ class Ex1Test {
 
         double[] xx3= {4, 2,2};
         double[] yy3= {1,7,2};
-        double[] exp_val3= Ex1.PolynomFromPoints(xx2,yy2);
-        double[] real_val3= null;
-        assertArrayEquals(exp_val2,real_val2,Ex1.EPS);
+        double[] exp_val3= Ex1.PolynomFromPoints(xx3,yy3);
+        assertArrayEquals(exp_val3,null,Ex1.EPS);
 
     }
 

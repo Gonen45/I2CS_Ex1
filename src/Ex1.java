@@ -196,7 +196,7 @@ public class Ex1 {
         double[] dif =add(mp(-1,0,p2),p1);
         /*
         like adding the negative: [p1=p2 --> p1-p2=p2-p2 --> p1-p2 = 0]
-         using scalar multipiction (-1) on p2 and adding to p1.
+         using scalar multiplication (-1) on p2 and adding to p1.
         */
         ans = root_rec(dif, x1,  x2, eps);
         return ans;
