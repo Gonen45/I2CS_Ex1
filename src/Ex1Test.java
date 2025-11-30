@@ -297,10 +297,27 @@ class Ex1Test {
         double exp_val2= Ex1.sameValue(p1,Ex1.ZERO,0,4,Ex1.EPS);
         double real_val2=0.00292;
         assertEquals(exp_val2,real_val2,Ex1.EPS);
+    }
+    @Test
+    public void testPolyFromPoints(){
+        double[] xx1= {4,3,2};
+        double[] yy1= {1,0,0};
+        double[] exp_val= Ex1.PolynomFromPoints(xx1,yy1);
+        double[] real_val= {3.0, -2.5, 0.5};
+        assertArrayEquals(exp_val,real_val,Ex1.EPS);
 
+        double[] xx2= {4, 8,2};
+        double[] yy2= {1,7,2};
+        double[] exp_val2= Ex1.PolynomFromPoints(xx2,yy2);
+        double[] real_val2= {5.666666666666667, -2.5, 0.3333333333333333};
+        assertArrayEquals(exp_val2,real_val2,Ex1.EPS);
 
-
-
+        double[] xx3= {4, 2,2};
+        double[] yy3= {1,7,2};
+        double[] exp_val3= Ex1.PolynomFromPoints(xx2,yy2);
+        double[] real_val3= null;
+        assertArrayEquals(exp_val2,real_val2,Ex1.EPS);
 
     }
+
 }
